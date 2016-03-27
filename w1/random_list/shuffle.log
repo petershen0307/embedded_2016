@@ -1,0 +1,8 @@
+Performance counter stats for './shuffle' (5 runs):
+
+             5,487      cache-misses              #    1.569 % of all cache refs    
+           295,314      cache-references                                            
+       357,614,418      instructions              #    0.67  insns per cycle        
+       536,151,665      cycles                                                      
+
+       0.169485486 seconds time elapsed                                          ( +-  6.64% )
