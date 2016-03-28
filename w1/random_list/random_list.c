@@ -71,7 +71,7 @@ void random_without_duplicate(unsigned int const size, List** head, List** tail)
 void shuffle_list(unsigned int const size, List** head, List** tail)
 {
     for (unsigned int i = 0; size != i; ++i)
-    {   
+    {
         List* new_item = (List*)malloc(sizeof(List));
         new_item->next = NULL;
         new_item->val = i + 1;
