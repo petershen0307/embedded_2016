@@ -30,3 +30,14 @@
 
 # Debug files
 *.dSYM/
+
+#hw1
+*~
+*.elf
+*.bin
+*.list
+*.swp
+*.bak
+phonebook_opt
+phonebook_orig
+calculate
