@@ -1,0 +1,12 @@
+perf stat -r 10 -e cache-misses,cache-references,L1-dcache-load-misses,L1-dcache-store-misses,L1-dcache-prefetch-misses,L1-icache-load-misses ./phonebook_orig
+Performance counter stats for './phonebook_orig' (10 runs):
+
+         4,220,713      cache-misses # 91.404 % of all cache refs (65.93%)
+         4,749,906      cache-references (66.80%)
+         5,409,487      L1-dcache-load-misses (67.48%)
+           912,619      L1-dcache-store-misses (68.36%)
+         5,955,253      L1-dcache-prefetch-misses (67.67%)
+           113,584      L1-icache-load-misses (65.84%)
+
+       0.111360772 seconds time elapsed ( +-  4.50% )
+

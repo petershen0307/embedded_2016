@@ -68,25 +68,40 @@ int main(int argc, char *argv[])
     e = pHead;
 
     /* the givn last name to find */
-    char input[MAX_LAST_NAME_SIZE] = "zyxel";
+    int const test_sizes = 8;
+    char input[test_sizes][MAX_LAST_NAME_SIZE];
+    strncpy(input[0], "zyxel", MAX_LAST_NAME_SIZE);
+    strncpy(input[1], "uninvolved", MAX_LAST_NAME_SIZE);
+    strncpy(input[2], "whiteshank", MAX_LAST_NAME_SIZE);
+    strncpy(input[3], "odontomous", MAX_LAST_NAME_SIZE);
+    strncpy(input[4], "pungoteague", MAX_LAST_NAME_SIZE);
+    strncpy(input[5], "reweighted", MAX_LAST_NAME_SIZE);
+    strncpy(input[6], "xiphisternal", MAX_LAST_NAME_SIZE);
+    strncpy(input[7], "yakattalo", MAX_LAST_NAME_SIZE);
     e = pHead;
 
-    assert(findName(input, e) &&
+    assert(findName(input[0], e) &&
            "Did you implement findName() in " IMPL "?");
-    assert(0 == strcmp(findName(input, e)->lastName, "zyxel"));
+    assert(0 == strcmp(findName(input[0], e)->lastName, "zyxel"));
 
 #if defined(__GNUC__)
     __builtin___clear_cache((char *) pHead, (char *) pHead + sizeof(entry));
 #endif
     /* compute the execution time */
     clock_gettime(CLOCK_REALTIME, &start);
-    findName(input, e);
+    for(int i = 0; test_sizes != i; ++i)
+    {
+        findName(input[i], e);
+    }
     clock_gettime(CLOCK_REALTIME, &end);
     cpu_time2 = diff_in_second(start, end);
 
     FILE *output;
 #if defined(OPT)
     output = fopen("opt.txt", "a");
+
+#elif defined(MINI)
+    output = fopen("mini.txt", "a");
 #else
     output = fopen("orig.txt", "a");
 #endif

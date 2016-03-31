@@ -1,0 +1,11 @@
+perf stat -r 10 -e cache-misses,cache-references,L1-dcache-load-misses,L1-dcache-store-misses,L1-dcache-prefetch-misses,L1-icache-load-misses ./phonebook_mini
+Performance counter stats for './phonebook_mini' (10 runs):
+
+           554,011      cache-misses # 53.337 % of all cache refs (64.91%)
+         1,157,573      cache-references (65.20%)
+         2,864,777      L1-dcache-load-misses (66.99%)
+           356,192      L1-dcache-store-misses (69.55%)
+         5,136,861      L1-dcache-prefetch-misses (69.02%)
+           117,551      L1-icache-load-misses (66.27%)
+
+       0.080296131 seconds time elapsed ( +-  5.58% )

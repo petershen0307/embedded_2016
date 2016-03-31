@@ -3,7 +3,7 @@ CFLAGS_common ?= -Wall -std=gnu99
 CFLAGS_orig = -O0
 CFLAGS_opt  = -O0
 
-EXEC = phonebook_orig phonebook_opt
+EXEC = phonebook_orig phonebook_mini phonebook_opt
 all: $(EXEC)
 
 SRCS_common = main.c
@@ -13,8 +13,13 @@ phonebook_orig: $(SRCS_common) phonebook_orig.c phonebook_orig.h
 		-DIMPL="\"$@.h\"" -o $@ \
 		$(SRCS_common) $@.c
 
+phonebook_mini: $(SRCS_common) phonebook_mini.c phonebook_mini.h
+	$(CC) $(CFLAGS_common) $(CFLAGS_orig) -DMINI \
+		-DIMPL="\"$@.h\"" -o $@ \
+		$(SRCS_common) $@.c
+
 phonebook_opt: $(SRCS_common) phonebook_opt.c phonebook_opt.h
-	$(CC) $(CFLAGS_common) $(CFLAGS_opt) \
+	$(CC) $(CFLAGS_common) $(CFLAGS_opt) -DOPT \
 		-DIMPL="\"$@.h\"" -o $@ \
 		$(SRCS_common) $@.c
 
@@ -28,7 +33,10 @@ cache-test: $(EXEC)
 		./phonebook_orig
 	perf stat --repeat 100 \
 		-e cache-misses,cache-references,instructions,cycles \
-		./phonebook_opt
+		./phonebook_mini
+#	perf stat --repeat 100 \
+#		-e cache-misses,cache-references,instructions,cycles \
+#		./phonebook_opt
 
 output.txt: cache-test calculate
 	./calculate
