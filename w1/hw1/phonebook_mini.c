@@ -5,7 +5,7 @@
 
 #include "phonebook_mini.h"
 
-/* original version */
+/* mini struct version */
 entry *findName(char lastname[], entry *pHead)
 {
     while (pHead != NULL)

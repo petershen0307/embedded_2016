@@ -3,7 +3,7 @@
 
 #define MAX_LAST_NAME_SIZE 16
 
-/* original version */
+/* mini struct version */
 typedef struct __PHONE_BOOK_ENTRY
 {
     char lastName[MAX_LAST_NAME_SIZE];
