@@ -21,4 +21,15 @@ typedef struct __PHONE_BOOK_ENTRY
 entry *findName(char lastname[], entry *pHead);
 entry *append(char lastName[], entry *e);
 
+//linked list hash table
+typedef struct __Hash_table
+{
+    unsigned int index;
+    entry* pValue;
+    struct __Hash_table* pNext;
+} Hash_table;
+
+// TODO hash1: all index are linked list
+// TODO hase2: index are array, can be random accessed
+
 #endif

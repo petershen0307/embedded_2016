@@ -2,10 +2,9 @@
 
 #include "phonebook_opt.h"
 
-/* FILL YOUR OWN IMPLEMENTATION HERE! */
+/* hash function */
 entry *findName(char lastname[], entry *pHead)
 {
-    /* TODO: implement */
     return NULL;
 }
 
