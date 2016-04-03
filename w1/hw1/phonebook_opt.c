@@ -7,12 +7,20 @@
 
 Phone_Book *findName(char lastName[], entry *pHead)
 {
+#if defined(LINKED_LIST)
     return find_name_linked_list(lastName, pHead);
+#else
+    return find_name_array(lastName, pHead);
+#endif
 }
 
 entry *append(char lastName[], entry *e)
 {
+#if defined(LINKED_LIST)
     return append_hash_table_linked_list(e, lastName);
+#else
+    return append_hash_table_array(e, lastName);
+#endif
 }
 
 /* hash function */
@@ -82,6 +90,42 @@ Phone_Book *find_name_linked_list(char lastName[], entry *pHead)
             }
             break;
         }
+    }
+    return result;
+}
+
+entry *append_hash_table_array(entry *head, char lastName[])
+{
+    entry **const hash_table_head = &(head->pNext);
+    if (NULL == *hash_table_head)
+    {
+        *hash_table_head = (entry *)malloc(sizeof(entry) * PRIME_NUMBER);
+    }
+    unsigned int const index = hashU(lastName, PRIME_NUMBER);
+    Phone_Book *pPhone_book = (Phone_Book *)malloc(sizeof(Phone_Book));
+    strncpy(pPhone_book->lastName, lastName, MAX_LAST_NAME_SIZE);
+    if (NULL != (*hash_table_head)[index].pValue)
+    {
+        pPhone_book->pNext = (*hash_table_head)[index].pValue->pNext;
+    }
+    (*hash_table_head)[index].pValue = pPhone_book;
+    return head;
+}
+
+Phone_Book *find_name_array(char lastName[], entry *pHead)
+{
+    unsigned int const index = hashU(lastName, PRIME_NUMBER);
+    entry **const hash_table_head = &(pHead->pNext);
+    Phone_Book *result;
+    Phone_Book *pPhone_book = (*hash_table_head)[index].pValue;
+    while (NULL != pPhone_book)
+    {
+        if (0 == strcmp(pPhone_book->lastName, lastName))
+        {
+            result = pPhone_book;
+            break;
+        }
+        pPhone_book = pPhone_book->pNext;
     }
     return result;
 }

@@ -28,14 +28,16 @@ struct __Hash_Table
 {
     unsigned int index;
     Phone_Book* pValue;
-    struct __Hash_Table* pNext;
+    struct __Hash_Table* pNext;//array head or linked list next
 };
 
 unsigned int hashU(char *v, int m);
 
 // TODO hash1: all index are linked list
 entry *append_hash_table_linked_list(entry *head, char lastName[]);
-Phone_Book *find_name_linked_list(char lastname[], entry *pHead);
+Phone_Book *find_name_linked_list(char lastName[], entry *pHead);
 // TODO hase2: index are array, can be random accessed
+entry *append_hash_table_array(entry *head, char lastName[]);
+Phone_Book *find_name_array(char lastName[], entry *pHead);
 
 #endif
