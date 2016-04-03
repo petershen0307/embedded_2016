@@ -3,6 +3,8 @@
 
 #define MAX_LAST_NAME_SIZE 16
 
+typedef struct __Hash_Table entry;
+
 typedef struct __PHONE_BOOK_ENTRY
 {
     char lastName[MAX_LAST_NAME_SIZE];
@@ -16,20 +18,24 @@ typedef struct __PHONE_BOOK_ENTRY
     char state[2];
     char zip[5];
     struct __PHONE_BOOK_ENTRY *pNext;
-} entry;
+} Phone_Book;
 
-entry *findName(char lastname[], entry *pHead);
+Phone_Book *findName(char lastname[], entry *pHead);
 entry *append(char lastName[], entry *e);
 
 //linked list hash table
-typedef struct __Hash_table
+struct __Hash_Table
 {
     unsigned int index;
-    entry* pValue;
-    struct __Hash_table* pNext;
-} Hash_table;
+    Phone_Book* pValue;
+    struct __Hash_Table* pNext;
+};
+
+unsigned int hashU(char *v, int m);
 
 // TODO hash1: all index are linked list
+entry *append_hash_table_linked_list(entry *head, char lastName[]);
+Phone_Book *find_name_linked_list(char lastname[], entry *pHead);
 // TODO hase2: index are array, can be random accessed
 
 #endif
