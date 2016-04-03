@@ -51,14 +51,12 @@ int main(int argc, char *argv[])
     __builtin___clear_cache((char *) pHead, (char *) pHead + sizeof(entry));
 #endif
     clock_gettime(CLOCK_REALTIME, &start);
-    int counter = 0;
     while (fgets(line, sizeof(line), fp))
     {
         while (line[i] != '\0')
             ++i;
         line[i - 1] = '\0';
         i = 0;
-        printf("%6d\r", counter++);
         e = append(line, e);
     }
     clock_gettime(CLOCK_REALTIME, &end);

@@ -34,9 +34,9 @@ cache-test: $(EXEC)
 	perf stat --repeat 100 \
 		-e cache-misses,cache-references,instructions,cycles \
 		./phonebook_mini
-#	perf stat --repeat 100 \
-#		-e cache-misses,cache-references,instructions,cycles \
-#		./phonebook_opt
+	perf stat --repeat 100 \
+		-e cache-misses,cache-references,instructions,cycles \
+		./phonebook_opt
 
 output.txt: cache-test calculate
 	./calculate
