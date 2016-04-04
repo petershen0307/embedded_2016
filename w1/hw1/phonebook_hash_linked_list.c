@@ -2,26 +2,18 @@
 #include <string.h>
 
 #include "phonebook_util.h"
-#include "phonebook_opt.h"
+#include "phonebook_hash_linked_list.h"
 
 #define PRIME_NUMBER 8527
 
 RETURN_TYPE findName(char lastName[], entry *pHead)
 {
-#if defined(LINKED_LIST)
     return find_name_linked_list(lastName, pHead);
-#else
-    return find_name_array(lastName, pHead);
-#endif
 }
 
 entry *append(char lastName[], entry *e)
 {
-#if defined(LINKED_LIST)
     return append_hash_table_linked_list(e, lastName);
-#else
-    return append_hash_table_array(e, lastName);
-#endif
 }
 
 /* hash function */
@@ -37,7 +29,6 @@ unsigned int hashU(char *v, int m)
     return h;
 }
 
-#if defined(LINKED_LIST)
 entry *append_hash_table_linked_list(entry *head, char lastName[])
 {
     if (NULL == head->pNext)
@@ -63,8 +54,8 @@ entry *append_hash_table_linked_list(entry *head, char lastName[])
 #if defined(OPT)
             entry *pPhone_book = (entry *)malloc(sizeof(entry));
             strncpy(pPhone_book->lastName, lastName, MAX_LAST_NAME_SIZE);
-            pPhone_book->pNext = cur_index->pNext;
-            cur_index->pNext = pPhone_book;
+            pPhone_book->pNext = cur_index->pValueNext;
+            cur_index->pValueNext = pPhone_book;
 #else
             Phone_Book *pPhone_book = (Phone_Book *)malloc(sizeof(Phone_Book));
             pPhone_book->pNext = NULL;
@@ -89,7 +80,7 @@ RETURN_TYPE find_name_linked_list(char lastName[], entry *pHead)
         if (index == cur_ptr->index)
         {
 #if defined(OPT)
-            entry *pPhone_book = cur_ptr->pNext;
+            entry *pPhone_book = cur_ptr->pValueNext;
             while (NULL != pPhone_book)
             {
                 if (0 == strcmp(pPhone_book->lastName, lastName))
@@ -116,64 +107,6 @@ RETURN_TYPE find_name_linked_list(char lastName[], entry *pHead)
     }
     return result;
 }
-#else
-entry *append_hash_table_array(entry *head, char lastName[])
-{
-    entry **const hash_table_head = &(head->pNext);
-    if (NULL == *hash_table_head)
-    {
-        *hash_table_head = (entry *)malloc(sizeof(entry) * PRIME_NUMBER);
-    }
-    unsigned int const index = hashU(lastName, PRIME_NUMBER);
-#if defined(OPT)
-    entry *pPhone_book = (entry *)malloc(sizeof(entry));
-    strncpy(pPhone_book->lastName, lastName, MAX_LAST_NAME_SIZE);
-    pPhone_book->pNext = (*hash_table_head)[index].pNext;
-    (*hash_table_head)[index].pNext = pPhone_book;
-#else
-    Phone_Book *pPhone_book = (Phone_Book *)malloc(sizeof(Phone_Book));
-    pPhone_book->pNext = NULL;
-    strncpy(pPhone_book->lastName, lastName, MAX_LAST_NAME_SIZE);
-    if (NULL != (*hash_table_head)[index].pValue)
-    {
-        pPhone_book->pNext = (*hash_table_head)[index].pValue->pNext;
-    }
-    (*hash_table_head)[index].pValue = pPhone_book;
-#endif
-    return head;
-}
-
-RETURN_TYPE find_name_array(char lastName[], entry *pHead)
-{
-    unsigned int const index = hashU(lastName, PRIME_NUMBER);
-    entry **const hash_table_head = &(pHead->pNext);
-    RETURN_TYPE result;
-#if defined(OPT)
-    entry *pPhone_book = (*hash_table_head)[index].pNext;
-    while (NULL != pPhone_book)
-    {
-        if (0 == strcmp(pPhone_book->lastName, lastName))
-        {
-            result = pPhone_book;
-            break;
-        }
-        pPhone_book = pPhone_book->pNext;
-    }
-#else
-    Phone_Book *pPhone_book = (*hash_table_head)[index].pValue;
-    while (NULL != pPhone_book)
-    {
-        if (0 == strcmp(pPhone_book->lastName, lastName))
-        {
-            result = pPhone_book;
-            break;
-        }
-        pPhone_book = pPhone_book->pNext;
-    }
-#endif
-    return result;
-}
-#endif //LINKED_LIST
 
 #if defined(DEBUG)
 #include <stdio.h>

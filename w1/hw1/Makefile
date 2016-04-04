@@ -19,15 +19,15 @@ phonebook_mini: $(SRCS_common) $(INC_common) phonebook_mini.c phonebook_mini.h
 		-DIMPL="\"$@.h\"" -o $@ \
 		$(SRCS_common) $@.c
 
-phonebook_hash_linked_list: $(SRCS_common) $(INC_common) phonebook_opt.c phonebook_opt.h
+phonebook_hash_linked_list: $(SRCS_common) $(INC_common) phonebook_hash_linked_list.c phonebook_hash_linked_list.h
 	$(CC) $(CFLAGS_common) $(CFLAGS_opt) -DOPT -DLINKED_LIST \
-		-DIMPL="\"phonebook_opt.h\"" -o $@ \
-		$(SRCS_common) phonebook_opt.c
+		-DIMPL="\"$@.h\"" -o $@ \
+		$(SRCS_common) $@.c
 
-phonebook_hash_array: $(SRCS_common) $(INC_common) phonebook_opt.c phonebook_opt.h
+phonebook_hash_array: $(SRCS_common) $(INC_common) phonebook_hash_array.c phonebook_hash_array.h
 	$(CC) $(CFLAGS_common) $(CFLAGS_opt) -DOPT -DARRAY \
-		-DIMPL="\"phonebook_opt.h\"" -o $@ \
-		$(SRCS_common) phonebook_opt.c
+		-DIMPL="\"$@.h\"" -o $@ \
+		$(SRCS_common) $@.c
 
 run: $(EXEC)
 	echo 3 | sudo tee /proc/sys/vm/drop_caches
