@@ -6,7 +6,7 @@
 
 #define PRIME_NUMBER 8527
 
-Phone_Book *findName(char lastName[], entry *pHead)
+RETURN_TYPE findName(char lastName[], entry *pHead)
 {
 #if defined(LINKED_LIST)
     return find_name_linked_list(lastName, pHead);
@@ -60,26 +60,46 @@ entry *append_hash_table_linked_list(entry *head, char lastName[])
     {
         if (index == cur_index->index)
         {
+#if defined(OPT)
+            entry *pPhone_book = (entry *)malloc(sizeof(entry));
+            strncpy(pPhone_book->lastName, lastName, MAX_LAST_NAME_SIZE);
+            pPhone_book->pNext = cur_index->pNext;
+            cur_index->pNext = pPhone_book;
+#else
             Phone_Book *pPhone_book = (Phone_Book *)malloc(sizeof(Phone_Book));
+            pPhone_book->pNext = NULL;
             strncpy(pPhone_book->lastName, lastName, MAX_LAST_NAME_SIZE);
             if (NULL != cur_index->pValue)
             {
                 pPhone_book->pNext = cur_index->pValue->pNext;
             }
             cur_index->pValue = pPhone_book;
+#endif
         }
     }
     return head;
 }
 
-Phone_Book *find_name_linked_list(char lastName[], entry *pHead)
+RETURN_TYPE find_name_linked_list(char lastName[], entry *pHead)
 {
     unsigned int const index = hashU(lastName, PRIME_NUMBER);
-    Phone_Book *result = NULL;
+    RETURN_TYPE result = NULL;
     for (entry *cur_ptr = pHead; NULL != cur_ptr; cur_ptr = cur_ptr->pNext)
     {
         if (index == cur_ptr->index)
         {
+#if defined(OPT)
+            entry *pPhone_book = cur_ptr->pNext;
+            while (NULL != pPhone_book)
+            {
+                if (0 == strcmp(pPhone_book->lastName, lastName))
+                {
+                    result = pPhone_book;
+                    break;
+                }
+                pPhone_book = pPhone_book->pNext;
+            }
+#else
             Phone_Book *pPhone_book = cur_ptr->pValue;
             while (NULL != pPhone_book)
             {
@@ -90,6 +110,7 @@ Phone_Book *find_name_linked_list(char lastName[], entry *pHead)
                 }
                 pPhone_book = pPhone_book->pNext;
             }
+#endif
             break;
         }
     }
@@ -104,21 +125,41 @@ entry *append_hash_table_array(entry *head, char lastName[])
         *hash_table_head = (entry *)malloc(sizeof(entry) * PRIME_NUMBER);
     }
     unsigned int const index = hashU(lastName, PRIME_NUMBER);
+#if defined(OPT)
+    entry *pPhone_book = (entry *)malloc(sizeof(entry));
+    strncpy(pPhone_book->lastName, lastName, MAX_LAST_NAME_SIZE);
+    pPhone_book->pNext = (*hash_table_head)[index].pNext;
+    (*hash_table_head)[index].pNext = pPhone_book;
+#else
     Phone_Book *pPhone_book = (Phone_Book *)malloc(sizeof(Phone_Book));
+    pPhone_book->pNext = NULL;
     strncpy(pPhone_book->lastName, lastName, MAX_LAST_NAME_SIZE);
     if (NULL != (*hash_table_head)[index].pValue)
     {
         pPhone_book->pNext = (*hash_table_head)[index].pValue->pNext;
     }
     (*hash_table_head)[index].pValue = pPhone_book;
+#endif
     return head;
 }
 
-Phone_Book *find_name_array(char lastName[], entry *pHead)
+RETURN_TYPE find_name_array(char lastName[], entry *pHead)
 {
     unsigned int const index = hashU(lastName, PRIME_NUMBER);
     entry **const hash_table_head = &(pHead->pNext);
-    Phone_Book *result;
+    RETURN_TYPE result;
+#if defined(OPT)
+    entry *pPhone_book = (*hash_table_head)[index].pNext;
+    while (NULL != pPhone_book)
+    {
+        if (0 == strcmp(pPhone_book->lastName, lastName))
+        {
+            result = pPhone_book;
+            break;
+        }
+        pPhone_book = pPhone_book->pNext;
+    }
+#else
     Phone_Book *pPhone_book = (*hash_table_head)[index].pValue;
     while (NULL != pPhone_book)
     {
@@ -129,6 +170,7 @@ Phone_Book *find_name_array(char lastName[], entry *pHead)
         }
         pPhone_book = pPhone_book->pNext;
     }
+#endif
     return result;
 }
 #endif //LINKED_LIST

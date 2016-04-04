@@ -2,11 +2,16 @@
 #define _PHONEBOOK_H
 
 #define MAX_LAST_NAME_SIZE 16
+#if defined(OPT)
+#define RETURN_TYPE entry*
+#else
+#define RETURN_TYPE Phone_Book*
+#endif
 
 typedef struct __Hash_Table entry;
 typedef struct __PHONE_BOOK_ENTRY Phone_Book;
 
-Phone_Book *findName(char lastname[], entry *pHead);
+RETURN_TYPE findName(char lastname[], entry *pHead);
 entry *append(char lastName[], entry *e);
 
 //linked list hash table
@@ -29,10 +34,10 @@ unsigned int hashU(char *v, int m);
 #if defined(LINKED_LIST)
 // hash1: all index are linked list
 entry *append_hash_table_linked_list(entry *head, char lastName[]);
-Phone_Book *find_name_linked_list(char lastName[], entry *pHead);
+RETURN_TYPE find_name_linked_list(char lastName[], entry *pHead);
 #else
 // hase2: index are array, can be random accessed
 entry *append_hash_table_array(entry *head, char lastName[]);
-Phone_Book *find_name_array(char lastName[], entry *pHead);
+RETURN_TYPE find_name_array(char lastName[], entry *pHead);
 #endif
 #endif //_PHONEBOOK_H
