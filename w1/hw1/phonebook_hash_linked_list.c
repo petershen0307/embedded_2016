@@ -16,6 +16,33 @@ entry *append(char lastName[], entry *e)
     return append_hash_table_linked_list(e, lastName);
 }
 
+void free_all(entry *pHead)
+{
+    do
+    {
+        entry *pTemp = pHead->pNext;
+#if defined(OPT)
+        free_hash_struct(pHead->pValueNext);
+#else
+        free_linked_list(pHead->pValue);
+#endif
+        free(pHead);
+        pHead = pTemp;
+    }
+    while (NULL != pHead);
+}
+
+void free_hash_struct(entry *pHead)
+{
+    do
+    {
+        entry *pTemp = pHead->pValueNext;
+        free(pHead);
+        pHead = pTemp;
+    }
+    while (NULL != pHead);
+}
+
 /* hash function */
 unsigned int hashU(char *v, int m)
 {

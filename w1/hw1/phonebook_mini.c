@@ -49,6 +49,17 @@ entry *append(char lastName[], entry *e)
     return e;
 }
 
+void free_all(entry *pHead)
+{
+    do
+    {
+        entry *pTemp = pHead->pNext;
+        free(pHead);
+        pHead = pTemp;
+    }
+    while (NULL != pHead);
+}
+
 #if defined(DEBUG)
 #include <stdio.h>
 int main(void)

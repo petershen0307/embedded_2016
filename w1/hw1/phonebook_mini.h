@@ -21,5 +21,6 @@ entry *findName(char lastname[], entry *pHead);
 orig_entry *findName(char lastname[], entry *pHead);
 #endif
 entry *append(char lastName[], entry *e);
+void free_all(entry *pHead);
 
 #endif

@@ -28,3 +28,14 @@ entry *append(char lastName[], entry *e)
 
     return e;
 }
+
+void free_all(entry *pHead)
+{
+    do
+    {
+        entry *pTemp = pHead->pNext;
+        free(pHead);
+        pHead = pTemp;
+    }
+    while (NULL != pHead);
+}

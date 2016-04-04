@@ -16,6 +16,31 @@ entry *append(char lastName[], entry *e)
     return append_hash_table_array(e, lastName);
 }
 
+void free_all(entry *pHead)
+{
+    entry *pHashIndexHead = pHead->pNext;
+    for (unsigned int i = 0; i < PRIME_NUMBER; ++i)
+    {
+#if defined(OPT)
+        free_hash_struct(pHashIndexHead[i].pNext);
+#else
+        free_hash_struct(pHashIndexHead[i].pValue);
+#endif
+    }
+    free(pHashIndexHead);
+    free(pHead);
+}
+
+void free_hash_struct(RETURN_TYPE pHead)
+{
+    while (NULL != pHead)
+    {
+        RETURN_TYPE pTemp = pHead->pNext;
+        free(pHead);
+        pHead = pTemp;
+    }
+}
+
 /* hash function */
 unsigned int hashU(char *v, int m)
 {
@@ -35,6 +60,11 @@ entry *append_hash_table_array(entry *head, char lastName[])
     if (NULL == *hash_table_head)
     {
         *hash_table_head = (entry *)malloc(sizeof(entry) * PRIME_NUMBER);
+        for (unsigned int i = 0; i < PRIME_NUMBER; ++i)
+        {
+            (*hash_table_head)[i].pNext = NULL;
+            (*hash_table_head)[i].pValue = NULL;
+        }
     }
     unsigned int const index = hashU(lastName, PRIME_NUMBER);
 #if defined(OPT)
@@ -98,6 +128,7 @@ int main(void)
     printf("%s\n", findName("aqw", pHead)->lastName);
     printf("%s\n", findName("klfff", pHead)->lastName);
     printf("%s\n", findName("gggggggg", pHead)->lastName);
+    free_all(pHead);
     return 0;
 }
 #endif

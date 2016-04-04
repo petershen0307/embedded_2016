@@ -13,6 +13,8 @@ typedef struct __PHONE_BOOK_ENTRY Phone_Book;
 
 RETURN_TYPE findName(char lastname[], entry *pHead);
 entry *append(char lastName[], entry *e);
+void free_all(entry *pHead);
+void free_hash_struct(RETURN_TYPE pHead);
 
 //linked list hash table
 struct __Hash_Table
