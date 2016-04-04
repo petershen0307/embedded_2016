@@ -3,6 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 
+#include "phonebook_util.h"
 #include "phonebook_orig.h"
 
 /* original version */

@@ -6,25 +6,26 @@ CFLAGS_opt  = -O0
 EXEC = phonebook_orig phonebook_mini phonebook_hash_linked_list phonebook_hash_array
 all: $(EXEC)
 
+INC_common =  phonebook_util.h
 SRCS_common = main.c
 
-phonebook_orig: $(SRCS_common) phonebook_orig.c phonebook_orig.h
+phonebook_orig: $(SRCS_common) $(INC_common) phonebook_orig.c phonebook_orig.h
 	$(CC) $(CFLAGS_common) $(CFLAGS_orig) \
 		-DIMPL="\"$@.h\"" -o $@ \
 		$(SRCS_common) $@.c
 
-phonebook_mini: $(SRCS_common) phonebook_mini.c phonebook_mini.h
-	$(CC) $(CFLAGS_common) $(CFLAGS_orig) -DMINI \
+phonebook_mini: $(SRCS_common) $(INC_common) phonebook_mini.c phonebook_mini.h
+	$(CC) $(CFLAGS_common) $(CFLAGS_orig) -DOPT -DMINI \
 		-DIMPL="\"$@.h\"" -o $@ \
 		$(SRCS_common) $@.c
 
-phonebook_hash_linked_list: $(SRCS_common) phonebook_opt.c phonebook_opt.h
-	$(CC) $(CFLAGS_common) $(CFLAGS_opt) -DOPT -DLINKED_LIST \
+phonebook_hash_linked_list: $(SRCS_common) $(INC_common) phonebook_opt.c phonebook_opt.h
+	$(CC) $(CFLAGS_common) $(CFLAGS_opt) -DLINKED_LIST \
 		-DIMPL="\"phonebook_opt.h\"" -o $@ \
 		$(SRCS_common) phonebook_opt.c
 
-phonebook_hash_array: $(SRCS_common) phonebook_opt.c phonebook_opt.h
-	$(CC) $(CFLAGS_common) $(CFLAGS_opt) -DOPT \
+phonebook_hash_array: $(SRCS_common) $(INC_common) phonebook_opt.c phonebook_opt.h
+	$(CC) $(CFLAGS_common) $(CFLAGS_opt) -DARRAY \
 		-DIMPL="\"phonebook_opt.h\"" -o $@ \
 		$(SRCS_common) phonebook_opt.c
 
@@ -41,10 +42,10 @@ cache-test: $(EXEC)
 		./phonebook_mini
 	perf stat --repeat 100 \
 		-e cache-misses,cache-references,instructions,cycles \
-		./phonebook_hash_linked_list
-	perf stat --repeat 100 \
-		-e cache-misses,cache-references,instructions,cycles \
 		./phonebook_hash_array
+#	perf stat --repeat 100 \
+#		-e cache-misses,cache-references,instructions,cycles \
+#		./phonebook_hash_linked_list
 
 output.txt: cache-test calculate
 	./calculate

@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "phonebook_util.h"
 #include "phonebook_opt.h"
 
 #define PRIME_NUMBER 8527
@@ -36,6 +37,7 @@ unsigned int hashU(char *v, int m)
     return h;
 }
 
+#if defined(LINKED_LIST)
 entry *append_hash_table_linked_list(entry *head, char lastName[])
 {
     if (NULL == head->pNext)
@@ -93,7 +95,7 @@ Phone_Book *find_name_linked_list(char lastName[], entry *pHead)
     }
     return result;
 }
-
+#else
 entry *append_hash_table_array(entry *head, char lastName[])
 {
     entry **const hash_table_head = &(head->pNext);
@@ -129,16 +131,20 @@ Phone_Book *find_name_array(char lastName[], entry *pHead)
     }
     return result;
 }
+#endif //LINKED_LIST
 
-//#include <stdio.h>
-//int main(void)
-//{
-//    entry *pHead = (entry *)malloc(sizeof(entry));
-//    pHead->pNext = NULL;
-//    append("aqw", pHead);
-//    append("klfff", pHead);
-//    append("gggggggg", pHead);
-//    printf("%s\n", findName("aqw", pHead)->lastName);
-//    printf("%s\n", findName("klfff", pHead)->lastName);
-//    printf("%s\n", findName("gggggggg", pHead)->lastName);
-//}
+#if defined(DEBUG)
+#include <stdio.h>
+int main(void)
+{
+    entry *pHead = (entry *)malloc(sizeof(entry));
+    pHead->pNext = NULL;
+    append("aqw", pHead);
+    append("klfff", pHead);
+    append("gggggggg", pHead);
+    printf("%s\n", findName("aqw", pHead)->lastName);
+    printf("%s\n", findName("klfff", pHead)->lastName);
+    printf("%s\n", findName("gggggggg", pHead)->lastName);
+    return 0;
+}
+#endif

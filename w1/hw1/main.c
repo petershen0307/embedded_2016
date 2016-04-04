@@ -4,6 +4,7 @@
 #include <time.h>
 #include <assert.h>
 
+#include "phonebook_util.h"
 #include IMPL
 
 #define DICT_FILE "./dictionary/words.txt"
@@ -97,8 +98,10 @@ int main(int argc, char *argv[])
     cpu_time2 = diff_in_second(start, end);
 
     FILE *output;
-#if defined(OPT)
-    output = fopen("opt.txt", "a");
+#if defined(LINKED_LIST)
+    output = fopen("linked_list.txt", "a");
+#elif defined(ARRAY)
+    output = fopen("array.txt", "a");
 #elif defined(MINI)
     output = fopen("mini.txt", "a");
 #else
