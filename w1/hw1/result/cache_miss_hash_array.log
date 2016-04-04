@@ -1,0 +1,16 @@
+perf stat -r 10 -e cache-misses,cache-references,L1-dcache-load-misses,L1-dcache-store-misses,L1-dcache-prefetch-misses,L1-icache-load-misses ./phonebook_hash_array
+Performance counter stats for './phonebook_hash_array' (10 runs):
+
+           884,382      cache-misses # 64.766 % of all cache refs (66.22%)
+         1,352,070      cache-references (67.75%)
+         1,927,852      L1-dcache-load-misses (68.12%)
+         1,083,221      L1-dcache-store-misses (68.22%)
+           382,717      L1-dcache-prefetch-misses (66.90%)
+            88,545      L1-icache-load-misses (65.26%)
+
+       0.106092061 seconds time elapsed ( +-  4.73% )
+
+bucket: 8527
+       size of entry : 32 bytes
+       execution time of append() : 0.160047 sec
+       execution time of findName() : 0.000007 sec

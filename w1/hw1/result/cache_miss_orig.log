@@ -10,3 +10,6 @@ Performance counter stats for './phonebook_orig' (10 runs):
 
        0.111360772 seconds time elapsed ( +-  4.50% )
 
+       size of entry : 136 bytes
+       execution time of append() : 0.252593 sec
+       execution time of findName() : 0.044702 sec

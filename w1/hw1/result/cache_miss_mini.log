@@ -9,3 +9,7 @@ Performance counter stats for './phonebook_mini' (10 runs):
            117,551      L1-icache-load-misses (66.27%)
 
        0.080296131 seconds time elapsed ( +-  5.58% )
+
+       size of entry : 32 bytes
+       execution time of append() : 0.129099 sec
+       execution time of findName() : 0.023024 sec
